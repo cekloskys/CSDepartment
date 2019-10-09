@@ -1,0 +1,105 @@
+<html>
+<head>
+<title>DBHandler.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #000080; font-weight: bold;}
+.s1 { color: #000000;}
+.s2 { color: #808080; font-style: italic;}
+.s3 { color: #0000ff;}
+.s4 { color: #008000; font-weight: bold;}
+.s5 { color: #808080; font-weight: bold; font-style: italic;}
+</style>
+</head>
+<body bgcolor="#ffffff">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+DBHandler.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span>com.example.csdepartment;
+
+<span class="s0">import </span>android.content.ContentValues;
+<span class="s0">import </span>android.content.Context;
+<span class="s0">import </span>android.database.sqlite.SQLiteDatabase;
+<span class="s0">import </span>android.database.sqlite.SQLiteOpenHelper;
+
+<span class="s0">public class </span>DBHandler <span class="s0">extends </span>SQLiteOpenHelper {
+
+    <span class="s2">// initialize constants for DB version and name</span>
+    <span class="s0">private static final int </span>DATABASE_VERSION = <span class="s3">1</span>;
+    <span class="s0">private static final </span>String DATABASE_NAME = <span class="s4">&quot;csdepartment.db&quot;</span>;
+
+    <span class="s2">// initialize constants for student table</span>
+    <span class="s0">public static final </span>String TABLE_STUDENT = <span class="s4">&quot;student&quot;</span>;
+    <span class="s0">public static final </span>String COLUMN_STUDENT_ID = <span class="s4">&quot;_id&quot;</span>;
+    <span class="s0">public static final </span>String COLUMN_STUDENT_NAME = <span class="s4">&quot;name&quot;</span>;
+    <span class="s0">public static final </span>String COLUMN_STUDENT_YEAR = <span class="s4">&quot;year&quot;</span>;
+    <span class="s0">public static final </span>String COLUMN_STUDENT_MAJOR = <span class="s4">&quot;major&quot;</span>;
+
+    <span class="s2">/**</span>
+     * Initializes a DBHandler.  Creates version of the database.
+     * <span class="s5">@param </span><span class="s2">context reference to activity that initializes the DBHandler</span>
+     * <span class="s5">@param </span><span class="s2">factory null</span>
+     */
+    <span class="s0">public </span>DBHandler (Context context, SQLiteDatabase.CursorFactory factory){
+        <span class="s2">// call superclass constructor</span>
+        <span class="s0">super</span>(context, DATABASE_NAME, factory, DATABASE_VERSION);
+    }
+
+    <span class="s2">/**</span>
+     * Creates database table
+     * <span class="s5">@param </span><span class="s2">sqLiteDatabase reference to csdepartment database</span>
+     */
+    @Override
+    <span class="s0">public void </span>onCreate(SQLiteDatabase sqLiteDatabase) {
+        <span class="s2">// define create statement for student table</span>
+        String query = <span class="s4">&quot;CREATE TABLE &quot; </span>+ TABLE_STUDENT + <span class="s4">&quot;(&quot; </span>+
+                COLUMN_STUDENT_ID + <span class="s4">&quot; INTEGER PRIMARY KEY AUTOINCREMENT, &quot; </span>+
+                COLUMN_STUDENT_NAME + <span class="s4">&quot; TEXT, &quot; </span>+
+                COLUMN_STUDENT_YEAR + <span class="s4">&quot; TEXT, &quot; </span>+
+                COLUMN_STUDENT_MAJOR + <span class="s4">&quot; TEXT&quot; </span>+
+                <span class="s4">&quot;);&quot;</span>;
+
+        <span class="s2">// execute create statement</span>
+        sqLiteDatabase.execSQL(query);
+    }
+
+    <span class="s2">/**</span>
+     * This method gets executed when a new version of the database is initialized.
+     * <span class="s5">@param </span><span class="s2">sqLiteDatabase reference to csdepartment database</span>
+     * <span class="s5">@param </span><span class="s2">oldVersion old version of database</span>
+     * <span class="s5">@param </span><span class="s2">newVersion new version of database</span>
+     */
+    @Override
+    <span class="s0">public void </span>onUpgrade(SQLiteDatabase sqLiteDatabase, <span class="s0">int </span>oldVersion, <span class="s0">int </span>newVersion) {
+        <span class="s2">// execute drop statement that drops student table</span>
+        sqLiteDatabase.execSQL(<span class="s4">&quot;DROP TABLE IF EXISTS &quot; </span>+ TABLE_STUDENT);
+
+        <span class="s2">// call method that creates table</span>
+        onCreate(sqLiteDatabase);
+    }
+
+    <span class="s0">public void </span>addStudent (String name, String year, String major) {
+
+        <span class="s2">// get reference to csdepartment database.</span>
+        SQLiteDatabase db = getWritableDatabase();
+
+        <span class="s2">// initialize an empty ContentValues</span>
+        ContentValues values = <span class="s0">new </span>ContentValues();
+
+        <span class="s2">// put key-value pairs in ContentValues.  The key must be the name</span>
+        // of a column and the value is the value to be inserted in the column.
+        values.put(COLUMN_STUDENT_NAME, name);
+        values.put(COLUMN_STUDENT_YEAR, year);
+        values.put(COLUMN_STUDENT_MAJOR, major);
+
+        <span class="s2">// insert values into student table</span>
+        db.insert(TABLE_STUDENT, <span class="s0">null</span>, values);
+
+        <span class="s2">// close reference to shopper database</span>
+        db.close();
+    }
+}</pre>
+</body>
+</html>

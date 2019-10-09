@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">CS Department</string>
+    <string name="action_add_student">ADD</string>
+    <string name="name">Name</string>
+    <string name="year">Year</string>
+    <string name="major">Major</string>
+    <string-array name="year">
+        <item></item>
+        <item>Freshman</item>
+        <item>Sophomore</item>
+        <item>Junior</item>
+        <item>Senior</item>
+    </string-array>
+    <string-array name="major">
+        <item></item>
+        <item>CIS</item>
+        <item>CIT</item>
+        <item>DF</item>
+        <item>CSEC</item>
+    </string-array>
+</resources>
